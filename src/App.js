@@ -40,16 +40,16 @@ function App() {
 
 
   const loadPrevData = async () => {
-    if (window.innerHeight + window.scrollY <= document.body.offsetHeight) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       const newStartDate = moment(startDate).subtract(8, 'days').format('YYYY-MM-DD');
       const newEndDate = moment(endDate).subtract(8, 'days').format('YYYY-MM-DD');
       const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&start_date=${newStartDate}&end_date=${newEndDate}&thumbs=true`);
       const newData = await response.json();
       const tempData = prevData
       tempData.push([...newData])
-      const setArray = new Set(tempData.map(x => JSON.stringify(x)))
-      const uniqArray = [...setArray].map(x => JSON.parse(x));
-        setPrevData(uniqArray);
+      // const setArray = new Set(tempData.map(x => JSON.stringify(x)))
+      // const uniqArray = [...setArray].map(x => JSON.parse(x));
+        setPrevData(tempData);
         setStartDate(newStartDate);
         setEndDate(newEndDate);
     }
@@ -109,7 +109,7 @@ function App() {
 
   };
   return (
-    <div className="App" id="main">
+    <div className="App" id="main" style={{background:"antiquewhite"}}>
       <header className="App-header">
         <nav className="flex grid-cols-2 bg-black text-center text-white">
           <div className="">
@@ -139,10 +139,10 @@ function App() {
       </svg>}
     <h1 className="text-xl bold text-green mt-15 ml-15">SpotLight of the Day</h1>
       <div className="spotlight">
-        <div className="max-w-sm w-full lg:max-w-full lg:flex justify-center mt-10 ">
-          <div className="border-l border-b border-l border-gray-400 lg:border-l-1 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal w-[50%]">
+        <div className="max-w-sm w-full sm:block lg:flex md:flex md:max-w-full lg:max-w-full justify-center mt-10 ">
+          <div className="border-l border-b border-l border-gray-400 lg:border-l-1 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal md:w-[35%] lg:w-[35%] sm:w-[100%]">
             <div className="mb-8">
-              <h1 className="text-sm text-gray-600 flex items-center font-bold text-lg">
+              <h1 className="text-sm text-gray-600 md:flex lg:flex items-center font-bold text-lg">
                 {latestReport?.title}
               </h1>
               <p className="text-gray-700 text-base">
@@ -157,9 +157,9 @@ function App() {
             </div>
           </div>
           <div
-            className="h-48 md:w-48 sm:w-35 lg:w-48 flex bg-cover rounded-t rounded-t-none rounded-l text-center overflow-hidden"
+            className="h-48 md:w-[50%] sm:w-[100%] lg:w-[50%] sm:block md: flex lg:flex bg-cover rounded-t rounded-t-none rounded-l text-center overflow-hidden"
             title="Woman holding a mug"
-            style={{width:"35%", height: "auto", objectFit:"cover"}}
+            style={{ height: "auto", objectFit:"cover"}}
           >
             <img src={latestReport.url} alt="latestreport"></img>
           </div>
@@ -199,13 +199,13 @@ function App() {
       ))} 
       </div>
       <Modal isOpen={isOpen}  style={customStyles} >
-        {/* <div className="absolute z-15"> */}
-        <div className="spotlight">
+        <div className="spotlight" style={{background:"bisque", padding:"2%"}}>
+          <h1 className="float-left text-xl text-black-800 md:flex lg:flex items-left font-bold ">{modalData?.title}</h1>
       <button className="float-right" onClick={()=>{handleClose()}}>X</button>
-        <div className="max-w-sm w-full lg:max-w-full lg:flex justify-center mt-10 ">
-          <div className="border-l border-b border-l border-gray-400 lg:border-l-1 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal w-[50%]">
+      <div className="max-w-sm w-full sm:block lg:flex md:flex md:max-w-full lg:max-w-full justify-center mt-10 ">
+          <div className="border-l border-b border-l border-gray-400 lg:border-l-1 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal md:w-[35%] lg:w-[35%] sm:w-[100%]" style={{background:"antiquewhite"}}>
             <div className="mb-8">
-              <h1 className="text-sm text-gray-600 flex items-center font-bold text-lg">
+              <h1 className="text-sm text-gray-600 md:flex lg:flex items-center font-bold text-lg">
                 {modalData?.title}
               </h1>
               <p className="text-gray-700 text-base">
@@ -220,15 +220,13 @@ function App() {
             </div>
           </div>
           <div
-            className="h-48 md:w-48 sm:w-35 lg:w-48 flex bg-cover rounded-t rounded-t-none rounded-l text-center overflow-hidden"
+            className="h-48 md:w-[50%] sm:w-[100%] lg:w-[50%] sm:block md: flex lg:flex bg-cover rounded-t rounded-t-none rounded-l text-center overflow-hidden"
             title="Woman holding a mug"
-            style={{width:"35%", height: "auto", objectFit:"cover"}}
+            style={{ height: "auto", objectFit:"cover"}}
           >
             <img src={modalData?.url} alt="latestreport"></img>
           </div>
-        </div>
-      </div>
-        {/* </div> */}
+        </div>      </div>
       </Modal>
       </div>
   );
