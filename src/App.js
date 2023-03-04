@@ -210,7 +210,8 @@ function App() {
             withBorder
             shadow="sm"
             radius="md"
-            className="w-[100%] w-full sm:flex lg:flex md:flex md:max-w-full lg:max-w-full justify-center"
+            className="w-[100%] w-full sm:flex lg:flex md:flex md:max-w-full lg:max-w-full justify-center h-[57vh] "
+            style={{overflow:"auto"}}
           >
             <div className="lg:flex md:flex max-h-[45%] sm:flex w-[100%]">
               <div className="lg:w-[100%] md:w-[100%]  sm:w-[100%] ml-[2%] mr-[2%]">
@@ -228,8 +229,8 @@ function App() {
                   {modalData?.explanation}
                 </Text>
               </div>
-              <div className="lg:w-[45%] lg:h-[570px] md:w-[45%] md-h-[500px] sm:w-[50%]">
-                <Image className="" src={modalData?.url}></Image>
+              <div className="lg:w-[45%] lg:h-[570px] md:w-[45%] md-h-[500px] sm:w-[50%] mt-[45px]">
+                <Image className="h-[500px]" src={modalData?.url}></Image>
               </div>
             </div>
           </Card>
